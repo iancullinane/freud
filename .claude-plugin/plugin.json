@@ -1,0 +1,10 @@
+{
+  "name": "freud",
+  "description": "Deep technical analysis of services with comprehensive documentation including architecture diagrams, database schemas, sequence flows, and critical reviews.",
+  "version": "0.1.0",
+  "author": { "name": "Ian Cullinane", "email": "ian@iancullinane.com" },
+  "homepage": "https://github.com/iancullinane/freud",
+  "repository": "https://github.com/iancullinane/freud",
+  "license": "MIT",
+  "keywords": ["skills", "code-analysis", "documentation", "architecture", "code-review"]
+}

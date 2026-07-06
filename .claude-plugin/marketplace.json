@@ -1,0 +1,14 @@
+{
+  "name": "freud",
+  "description": "Deep technical service-analysis skill for Claude Code",
+  "owner": { "name": "Ian Cullinane", "email": "ian@iancullinane.com" },
+  "plugins": [
+    {
+      "name": "freud",
+      "description": "Deep technical analysis of services with comprehensive documentation including architecture diagrams, database schemas, sequence flows, and critical reviews.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": { "name": "Ian Cullinane", "email": "ian@iancullinane.com" }
+    }
+  ]
+}
