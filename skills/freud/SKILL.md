@@ -19,6 +19,8 @@ When asked to analyze a service, create comprehensive technical documentation wi
 
 The result is a `.html` named `ANALYSIS.html`. If this file already exists read it first. 
 
+Start from `assets/template.html` — copy it to `ANALYSIS.html` and fill in each section per the Analysis Process below, following the HTML comments in the template for what varies per repeating block.
+
 **Page Styling**
 - Use a "Gruvbox" style theme
 
@@ -100,54 +102,11 @@ Structure:
 - Responsive CSS for mobile
 
 **Mermaid Diagrams:**
-```javascript
-mermaid.initialize({
-    startOnLoad: true,
-    securityLevel: 'strict',
-    theme: 'default',
-    themeVariables: {
-        primaryColor: '#667eea',
-        primaryTextColor: '#fff',
-        primaryBorderColor: '#764ba2',
-        lineColor: '#667eea'
-    }
-});
-```
+See `assets/template.html` for the exact Mermaid CDN script tag and `initialize()` config — copy it as-is.
 
 ### Database Table Template
 
-```html
-<div class="db-table-container">
-    <div class="db-table-header">
-        <div class="db-table-icon">📦</div>
-        <div class="db-table-title">
-            <h4>table_name</h4>
-            <p>Purpose description</p>
-        </div>
-    </div>
-    <table class="db-table">
-        <thead>
-            <tr>
-                <th>Column</th>
-                <th>Type</th>
-                <th>Constraints</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><span class="column-name">id</span></td>
-                <td><span class="column-type">BIGSERIAL</span></td>
-                <td>
-                    <span class="constraint-badge pk">PRIMARY KEY</span>
-                    <span class="constraint-badge not-null">NOT NULL</span>
-                </td>
-                <td>Unique identifier</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-```
+See `assets/template.html` for the exact markup — copy the `.db-table-container` block as-is, one per table.
 
 ### Sequence Diagram Best Practices
 
