@@ -17,33 +17,96 @@ Deep technical analysis of services with code documentation including architectu
 
 When asked to analyze a service, create comprehensive technical documentation with visual diagrams and critical reviews.
 
-The result is a `.html` named `ANALYSIS.html`. If this file already exists read it first. 
+The result is a `.html` named `ANALYSIS.html`. If this file already exists read it first.
+
+If the file already exists check to see if there have been changes to its state firts.
 
 Start from `assets/template.html` — copy it to `ANALYSIS.html` and fill in each section per the Analysis Process below, following the HTML comments in the template for what varies per repeating block.
+
+### Visual Design Requirements
 
 **Page Styling**
 - Use a "Gruvbox" style theme
 
+**Components:**
+- Professional gradient header
+- Card-based layouts with hover effects
+- Syntax-highlighted code blocks
+- Database tables with visual badges
+- Info/warning/success boxes with left border
+- Responsive CSS for mobile
+
+**Mermaid Diagrams:**
+See `assets/template.html` for the exact Mermaid CDN script tag and `initialize()` config — copy it as-is.
+
+- **CRITICAL**: Never use HTML tags in Mermaid diagrams
+
+
+
 ### Analysis Process
 
-1. **Discovery Phase**
+1. **Static & Dynamic Analysis (Go)**
+
+   Run these first, before anything else, so results are ready when the review
+   section is written. Each command is non-interactive. If a command fails to
+   *run at all* (not just fails checks), capture the error and continue —
+   never stop the review because a tool is missing.
+
+   Skip `vendor/` and generated dirs. Cap tests: `-timeout=120s`.
+
+   Stdlib (always run):
+   - `go build ./...`
+   - `go vet ./...`
+   - `go test -race -timeout=120s ./...`
+   - `go test -covermode=atomic -coverprofile=cover.out ./... && go tool cover -func=cover.out`
+   - `go mod tidy -diff` (Go 1.23+)
+   - `go list -m -u all`
+
+   Near-standard (run if installed, else skip and render a "Tools Not Run"
+   card at the top of the Technical Review section listing each missing tool
+   with its install command):
+   - `govulncheck ./...` — install: `go install golang.org/x/vuln/cmd/govulncheck@latest`
+   - `deadcode ./...` — install: `go install golang.org/x/tools/cmd/deadcode@latest`
+   - `staticcheck ./...` — install: `go install honnef.co/go/tools/cmd/staticcheck@latest`
+
+   Optional (only if repo is already configured):
+   - `golangci-lint run` — only if `.golangci.yml` exists
+   - `gosec ./...` — only if `.gosec.yaml` or similar exists
+
+   Feed results into the review:
+   - `go vet`, `staticcheck`, `gosec` findings → **Concerns**
+   - Race failures → **Concerns**; bump risk to High
+   - Per-package coverage → table in review; flag <40% as **Concerns**
+   - `govulncheck` hits → **Concerns** with CVE IDs
+   - `deadcode` output → **Recommendations** (delete list)
+   - Non-empty `go mod tidy -diff` → **Concerns**
+
+   **Tools Not Run card** — one info card, only if at least one near-standard
+   tool was missing. Title: "Tools Not Run". Body: one line per missing tool,
+   `<tool>` followed by the exact install command. If all three ran, omit the
+   card entirely.
+
+2. **Discovery Phase**
    - Explore directory structure
    - Read README, go.mod/package.json, Dockerfile
    - Read `vendor/github.turbine.com/MGP-Server/bos-protos/`
      - This is the imported API monorepo
+     - This is not present in all repos
+     - If it is present add a section in API listing which protos are used
    - Start from `main.go`
    - Map configuration files and environment variables
    - List dependencies and external services
 
-2. **Architecture Analysis**
+3. **Architecture Analysis**
    - Document service purpose and key features
    - Identify architectural patterns
-   - Map HTTP endpoints and handlers
+   - Map HTTP or gRPC endpoints and handlers
+     - Identify other service dependencies using the `vendor/github.turbine.com/MGP-Server/bos-protos/` directory
    - Analyze middleware and request flow
    - Document concurrency patterns
    - Review error handling strategy
 
-3. **Database Deep Dive**
+4. **Database Deep Dive**
    - Read all migration files in db/, migrations/, or similar
    - Extract complete table DDL
    - Document columns with types and constraints
@@ -52,14 +115,13 @@ Start from `assets/template.html` — copy it to `ANALYSIS.html` and fill in eac
    - Document stored procedures with business logic
    - Identify indexes and performance concerns
 
-4. **Flow Visualization**
+5. **Flow Visualization**
    - Create 3-6 focused sequence diagrams (one per domain)
    - Build state machines for stateful entities (jobs, orders, workflows)
    - Design decision trees for complex conditional logic
-   - **CRITICAL**: Never use HTML tags in Mermaid diagrams
    - Keep each sequence diagram to 6-8 participants max
 
-5. **Code Review**
+6. **Code Review**
    - Document architectural strengths
    - Identify concerns and code smells
    - Provide specific, actionable recommendations
@@ -80,8 +142,7 @@ Structure:
    - State machines
    - Decision trees
 5. Database Schema Section
-   - Visual table represent
-   ations
+   - Visual table representations
    - Entity relationship diagram
    - Stored procedure documentation
 6. Technical Review Section
@@ -90,19 +151,6 @@ Structure:
    - Recommendations (blue box)
    - Risk assessment
 ```
-
-### Visual Design Requirements
-
-**Components:**
-- Professional gradient header
-- Card-based layouts with hover effects
-- Syntax-highlighted code blocks
-- Database tables with visual badges
-- Info/warning/success boxes with left border
-- Responsive CSS for mobile
-
-**Mermaid Diagrams:**
-See `assets/template.html` for the exact Mermaid CDN script tag and `initialize()` config — copy it as-is.
 
 ### Database Table Template
 
