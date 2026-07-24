@@ -59,6 +59,11 @@ Start from `assets/template.html` — copy it to `ANALYSIS.html` and fill in eac
    - **CRITICAL**: Never use HTML tags in Mermaid diagrams
    - Keep each sequence diagram to 6-8 participants max
 
+4a. **Linking to code**
+   - When making diagrams where possible link to the code
+   - Check the local .git config file for the remote location
+   - If github build a link and use it in the diagram
+
 5. **Code Review**
    - Document architectural strengths
    - Identify concerns and code smells
