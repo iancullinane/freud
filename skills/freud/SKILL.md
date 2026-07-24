@@ -121,6 +121,11 @@ See `assets/template.html` for the exact Mermaid CDN script tag and `initialize(
    - Design decision trees for complex conditional logic
    - Keep each sequence diagram to 6-8 participants max
 
+5a. **Linking to code**
+   - When making diagrams where possible link to the code
+   - Check the local .git config file for the remote location
+   - If github build a link and use it in the diagram
+
 6. **Code Review**
    - Document architectural strengths
    - Identify concerns and code smells
