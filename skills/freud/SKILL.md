@@ -40,6 +40,7 @@ Start from `assets/template.html` — copy it to `ANALYSIS.html` and fill in eac
 See `assets/template.html` for the exact Mermaid CDN script tag and `initialize()` config — copy it as-is.
 
 - **CRITICAL**: Never use HTML tags in Mermaid diagrams
+- Never put { or } inside [...] or (...) node labels in flowchart / graph diagrams. Mermaid reserves {...} for decision/rhombus nodes, so A[Service{}] or B(Foo{bar}) is a parse error. If you need to reference a struct literal, empty map, JSON, or template placeholder, either quote the label (A["Service{}"]) or rephrase it without braces (A[Service struct], A[empty map]). This applies to every non-decision node shape: [...], (...), ((...)), >...], [/.../], etc.
 
 
 
